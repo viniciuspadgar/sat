@@ -1,4 +1,3 @@
-var fileName = ".\hole1.cnf";
 const fs = require('fs');
 var contadorInt = 0;
 var contadorBin = parseInt(contadorInt);
@@ -9,13 +8,21 @@ var qtVarG;
 var qtClaG;
 var assignment;
 
+exports.solve = function(fileName) {
+    console.log('solve');
+
+    var formula = readFormula(fileName);
+    let result = doSolve(formula.clauses, formula.variables);
+    return result;
+}
+
 function readFormula(fileName) {
 
-    let text = fs.readFileSync(fileName, 'utf8').split("\n");
+    var text = fs.readFileSync(fileName, 'utf8').split("\n");
 
-    let qtVariables = 0;
-    let qtClauses = 0;
-    let lineOfClauses = "";
+    var qtVariables = 0;
+    var qtClauses = 0;
+    var lineOfClauses = "";
 
     for (var k = 0; k < text.length; k++) {
 
@@ -36,12 +43,12 @@ function readFormula(fileName) {
             lineOfClauses = lineOfClauses.concat(" ", text[k]);
         };
 
-        let clauseLine = lineOfClauses.split("0");
+        var clauseLine = lineOfClauses.split("0");
     };
 
 
-    let clauses = readClauses(clauseLine)
-    let variables = readVariables(clauses)
+    let clauses = readClauses(clauseLine);
+    let variables = readVariables(clauses);
 
 
 
@@ -57,35 +64,37 @@ function readFormula(fileName) {
 
 
 function readClauses (clauseLine){
+    console.log('readclaus');
 
     var clausesArray = [];
 
     for (let i = 0; i < clauseLine.length; i++) {
 
-
+        console.log(clauseLine.length);
         let eachVariable = clauseLine[i].split(" ");
-
-        for (let j = 0; j < eachVariable.length; j++){
-
-            if (eachVariable[j] != ""){
+        for (let m = 0; m <= eachVariable.length; m++) {
+        console.log(eachVariable.length + 'eav');
+        for (let j = 0; j <= eachVariable[m][j].length; j++) {
+            console.log('2')
+            if (eachVariable[j][m] != "") {
+                console.log('3')
                 eachVariable.push(parseInt(eachVariable[j], 10));
-            };
-
-        };
-
+            }
+        }
+        }
+    }
+var clauses;
         clauses.push(eachVariable);
-    };
+        return
+    }
 
-    return clauses;
-
-
-}
 
 function readVariables(qtVariables){
+    console.log('readvars');
 
-    let allZeros = [];
+    let allZeros = [''];
 
-    for (let i = 0; i < qtVariables; i++){
+    for (let i = 0; i <= qtVariables; i++){
 
         allZeros.push("0");
 
@@ -97,6 +106,7 @@ function readVariables(qtVariables){
 }
 
 function checkProblemSpecification(lineOfClauses, qtClauses, qtVariables) {
+    console.log('checkprobspec');
 
     let highest = highestValue(lineOfClauses);
 
@@ -126,6 +136,8 @@ function checkProblemSpecification(lineOfClauses, qtClauses, qtVariables) {
 
 
 function highestValue(lineOfClauses) {
+    console.log('highest');
+
 
     var arr = lineOfClauses.split(" ").map(Number);
 
@@ -143,6 +155,8 @@ function highestValue(lineOfClauses) {
 
 
 function updateCount() {
+    console.log('update');
+
     contadorInt++;
     contadorBin = parseInt(contadorInt);
     contadorBinString = (contadorInt).toString(2);
@@ -151,6 +165,8 @@ function updateCount() {
 
 }
 function nextAssignment(currentAssignment){
+    console.log('nextass');
+
     updateCount;
     var newAssignment = contadorBinString;
     while(contadorBinString.length < qtVarG){
@@ -161,6 +177,7 @@ function nextAssignment(currentAssignment){
     return newAssignment;
 }
 function check(){
+    console.log('check');
     let check1 = true;
 
     var contCheck1 = 1;
@@ -196,6 +213,7 @@ function check(){
 
 
 function doSolve(clauses, assignment) {
+    console.log('doSolve');
     let isSat = false
 
     while (!isSat) {
